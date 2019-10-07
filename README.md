@@ -2,7 +2,7 @@
 
 Esc: Examples of System Call
 
-This is a collection written in Rust (using [nix](
+This is a collection written in Rust (using [libc](https://github.com/rust-lang/libc) and [nix](
 https://github.com/nix-rust/nix)) just trying usage examples  
 from basic C linux system call references for fun.
 
@@ -20,6 +20,7 @@ from basic C linux system call references for fun.
 
 * [System Interfaces - The Open Group Base Specifications Issue 7, 2018 edition](
 https://pubs.opengroup.org/onlinepubs/9699919799/functions/contents.html)
+* [rust-lang/libc](https://github.com/rust-lang/libc)
 * [nix-rust/nix](https://github.com/nix-rust/nix)
 
 

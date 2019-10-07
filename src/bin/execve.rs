@@ -2,6 +2,7 @@ use std::env;
 use std::ffi::CString;
 use std::process::exit;
 
+use libc::_exit;
 use nix::unistd::{execve, fork, ForkResult};
 
 fn run() -> i32 {
@@ -27,7 +28,9 @@ fn run() -> i32 {
             let _ = execve(&path, &argv, &environ[..]);
 
             // never called
-            exit(1)
+            unsafe {
+                _exit(1);
+            }
         },
         Err(_) => {
             eprintln!("fork");

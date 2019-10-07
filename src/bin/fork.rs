@@ -1,5 +1,6 @@
 use std::process::exit;
 
+use libc::_exit;
 use nix::unistd::{fork, ForkResult};
 
 fn run() -> i32 {
@@ -11,7 +12,9 @@ fn run() -> i32 {
         Ok(ForkResult::Child) => {
             // fork returns 0
             println!("{}", "child process");
-            exit(0);
+            unsafe {
+                _exit(0);
+            }
         },
         Err(_) => {
             eprintln!("fork");
