@@ -1,0 +1,12 @@
+[package]
+name = "esc"
+version = "0.1.0"
+authors = ["Yasuhiro Яша Asaka <yasuhiro.asaka@grauwoelfchen.net>"]
+description = "A usage collection of some examples from system call references"
+repository = "https://gitlab.com/grauwoelfchen/esc"
+edition = "2018"
+keywords = []
+license = "Apache-2.0"
+
+[dependencies]
+nix = "0.15.0"
