@@ -6,12 +6,12 @@ use nix::unistd::{fork, ForkResult};
 fn run() -> i32 {
     match fork() {
         Ok(ForkResult::Parent { child, .. }) => {
-            println!("{}, (child: {})", "parent process", child);
+            println!("parent process, (child: {})", child);
             0
         },
         Ok(ForkResult::Child) => {
             // fork returns 0
-            println!("{}", "child process");
+            println!("child process");
             unsafe {
                 _exit(0);
             }
