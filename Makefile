@@ -1,61 +1,63 @@
-# verify -- {{{
-verify\:check:  ## Check rust syntax [alias: check]
+# vet {{{
+vet\:check: # Check rust syntax [alias: check]
 	@cargo check --all -v
-.PHONY: verify\:check
+.PHONY: vet\:check
 
-check: | verify\:check
+check: vet\:check
 .PHONY: check
 
-verify\:format:  ## Check format without changes [alias: verify:fmt, format, fmt]
+vet\:format: # Check format without changes [alias: vet:fmt, format, fmt]
 	@cargo fmt --all -- --check
-.PHONY: verify\:format
+.PHONY: vet\:format
 
-verify\:fmt: | verify\:format
-.PHONY: verify\:fmt
+vet\:fmt: vet\:format
+.PHONY: vet\:fmt
 
-format: | verify\:format
+format: vet\:format
 .PHONY: format
 
-fmt: | verify\:format
+fmt: vet\:format
 .PHONY: fmt
 
-verify\:lint:  ## Check coding style using clippy [alias: lint]
+vet\:lint: # Check coding style using clippy [alias: lint]
 	@cargo clippy --all-targets
-.PHONY: verify\:lint
+.PHONY: vet\:lint
 
-lint: | verify\:lint
+lint: vet\:lint
 .PHONY: lint
 
-verify\:all: | verify\:check verify\:format verify\:lint  ## Check code using all verify:xxx targets [alias: verify]
-.PHONY: verify\:all
+vet\:all: vet\:check vet\:format vet\:lint # Check code using all vet:xxx targets [alias: vet]
+.PHONY: vet\:all
 
-verify: | verify\:all
-.PHONY: verify
+vet: vet\:all
+.PHONY: vet
 # }}}
 
-# build -- {{{
+# build {{{
 build:
 	cargo build
 .PHONY: build
 # }}}
 
-# other utilities -- {{{
-clean:  ## Clean up
-	@cargo clean
-.PHONY: clean
-
+# utils {{{
 run\:%:
 	@cargo run --quiet --bin $(subst run:,,$@)
 .PHONY: run\:%
 
-help:  ## Display this message
-	@grep -E '^[0-9a-z\:\\]+: ' $(MAKEFILE_LIST) | grep -E '  ## ' | \
-		sed -e 's/\(\s|\(\s[0-9a-z\:\\]*\)*\)  /  /' | tr -d \\\\ | \
-		awk 'BEGIN {FS = ":  ## "};" \
-		  "{printf "\033[38;05;222m%-21s\033[0m %s\n", $$1, $$2}' | \
+clean: # Clean up
+	@cargo clean
+.PHONY: clean
+
+help: # Display this message
+	@grep --extended-regexp '^[0-9a-z\:\\\%]+: ' $(firstword $(MAKEFILE_LIST)) | \
+		grep --extended-regexp ' # ' | \
+		sed --expression='s/\([a-z0-9\-\:\ ]*\): \([a-z0-9\-\:\ ]*\) #/\1: #/g' | \
+		tr --delete \\\\ | \
+		awk 'BEGIN {FS = ": # "}; \
+			{printf "\033[38;05;222m%-11s\033[0m %s\n", $$1, $$2}' | \
 		sort
 .PHONY: help
 # }}}
-#
+
 .DEFAULT_GOAL = build
 default: build
