@@ -6,7 +6,7 @@ use libc::_exit;
 use nix::unistd::{execve, fork, ForkResult};
 
 fn run() -> i32 {
-    match fork() {
+    match unsafe { fork() } {
         Ok(ForkResult::Parent { .. }) => {
             println!("Hello, from parent");
             0
